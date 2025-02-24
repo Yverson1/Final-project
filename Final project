@@ -1,0 +1,69 @@
+from tkinter import *
+
+ROOT = Tk()
+ROOT.minsize(height=500, width=900)
+
+
+def tab1():
+    def tab2():
+        label1.destroy()
+        button1.destroy()
+        label2 = Label(ROOT, text="order form", font=('arial', 25))
+        label2.pack()
+
+        def tab3():
+            label2.destroy()
+            button2.destroy()
+            buttonBack.destroy()
+            label3 = Label(ROOT, text="checking out ", font=('arial', 25))
+            label3.pack()
+
+            def tab4():
+                label3.destroy()
+                button3.destroy()
+
+                label4 = Label(ROOT, text="order complete", font=('arial', 25))
+                label4.pack()
+
+            button3 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab4, activebackground='black')
+            button3.pack(side=BOTTOM)
+
+            def back():
+                label4.destroy()
+                button4.destroy()
+                buttonBack.destroy()
+                tab3()
+
+            button4 = Button(ROOT, text='Back', font=('arial', 25), command=tab3, activebackground='orange')
+            button4.pack(side=BOTTOM)
+
+            def back():
+                label3.destroy()
+                button3.destroy()
+                buttonBack.destroy()
+                tab2()
+
+            button3 = Button(ROOT, text='BACK', font=('arial', 25), command=tab2, activebackground='blue')
+            button3.pack(side=BOTTOM)
+
+        def back_to_tab1():
+            label2.destroy()
+            button2.destroy()
+            buttonBack.destroy()
+            tab1()
+
+        button2 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab3, activebackground='green')
+        button2.pack(side=BOTTOM)
+
+        buttonBack = Button(ROOT, text='BACK', font=('arial', 25), command=back_to_tab1, activebackground='blue')
+        buttonBack.pack(side=BOTTOM)
+
+    label1 = Label(ROOT, text="main ", font=('arial', 25))
+    label1.pack()
+
+    button1 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab2, activebackground='red')
+    button1.pack(side=BOTTOM)
+
+
+tab1()
+ROOT.mainloop()
