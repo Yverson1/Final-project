@@ -1,69 +1,172 @@
 from tkinter import *
+from tkinter import PhotoImage
 
 ROOT = Tk()
 ROOT.minsize(height=500, width=900)
 
+ROOT.configure(bg='light blue')
+
 
 def tab1():
     def tab2():
+        cart = []
+        total_price = 0.0
+
         label1.destroy()
         button1.destroy()
-        label2 = Label(ROOT, text="order form", font=('arial', 25))
+        label2 = Label(ROOT, text="order form", font=('arial', 25))# this is the order form
         label2.pack()
 
+        menu_label = Label(
+            ROOT,
+            text="Wendy's Menu:\n1. HamBurger - $5.99\n2. Fries - $2.49\n3. Baconator - $6.99\n4. Drink - $1.99\n5. CheeseBurger - $4.99",
+            font=('arial', 20)
+        )# this is the menu label
+        menu_label.pack()# this is the pack for the menu label
+
+        cart_label = Label(ROOT, text="Your Cart:", font=('arial', 20))# this is the cart label
+        cart_label.pack()
+
+        cart_items = Label(ROOT, text="", font=('arial', 15))# this is the cart items
+        cart_items.pack()
+
+        total_price_label = Label(ROOT, text="Total Price: $0.00", font=('arial', 20))# this is  the total price label
+        total_price_label.pack()
+
+        def add_to_cart(item, price):
+            nonlocal total_price
+            cart.append(item) 
+            total_price += price
+            cart_items.config(text="\n".join(cart))# this is the cart items
+            total_price_label.config(text=f"Total Price: ${total_price:.2f}")# this is th total price label
+
+        Button(
+            ROOT,
+            text='Add Hamburger',
+            font=('arial', 15),
+            command=lambda: add_to_cart("Hamburger - $5.99", 5.99)
+        ).pack() # this is the button for the hamburger 
+        Button(ROOT, text='Add Fries', font=('arial', 15), command=lambda: add_to_cart("Fries - $2.49", 2.49)).pack() # this is the button for the fries 
+        Button(ROOT, text='Add Baconator', font=('arial', 15),
+               command=lambda: add_to_cart("Baconator - $6.99", 6.99)).pack() # this is the button for the baconator 
+        Button(ROOT, text='Add Drink', font=('arial', 15), command=lambda: add_to_cart("Drink - $1.99", 1.99)).pack() # this is the button for the drink
+        Button(ROOT, text='Add CheeseBurger', font=('arial', 15),
+               command=lambda: add_to_cart("CheeseBurger - $4.99", 4.99)).pack() # this is the button for the cheeseburger
+
         def tab3():
-            label2.destroy()
-            button2.destroy()
-            buttonBack.destroy()
-            label3 = Label(ROOT, text="checking out ", font=('arial', 25))
-            label3.pack()
+            for widget in ROOT.winfo_children(): # this is the for loop for the widgets
+                widget.destroy()# this is the destroy for the widgets 
+
+            label3 = Label(ROOT, text="checking out ", font=('arial', 25)) # this is  the label for the checking out
+            label3.pack() # thi is the pack for the label3
+
+           
+
+            cart_summary_label = Label(ROOT, text="Your Cart Items:", font=('arial', 20)) # this is the cart summary label
+            cart_summary_label.pack() # this is the pack for the cart summary label 
+
+            cart_summary_items = Label(ROOT, text="\n".join(cart), font=('arial', 15)) # this is the cart summary items
+            cart_summary_items.pack() # this is the pack for the cart summary items 
+
+            total_price_checkout_label = Label(ROOT, text=f"Total Price: ${total_price:.2f}", font=('arial', 20)) # this is  the total price checkout label
+            total_price_checkout_label.pack() # this is the pack for the total price checkout label
+           
+            def place_order(): # this function is used to place the order
+                tab4()
+
+            place_order_button = Button(ROOT, text='Place Order', font=('arial', 20), command=place_order,
+                                        activebackground='green') # this is the place order button 
+            place_order_button.pack() # this is the pack for the place order button
 
             def tab4():
                 label3.destroy()
-                button3.destroy()
+                cart_summary_label.destroy() # this is the destroy for the cart summary label
+                cart_summary_items.destroy() # this is the destroy for the cart summary items 
+                total_price_checkout_label.destroy() # this is the destroy for the total price checkout label 
+                button3.destroy() # this is the destroy for the button3
+                buttonBack.destroy() # this is the destroy for the buttonBack
 
-                label4 = Label(ROOT, text="order complete", font=('arial', 25))
-                label4.pack()
+                confirmation = Label(ROOT, text="Are you sure you want to complete your order?", font=('arial', 20)) # this is the label for the confirmation 
+                confirmation.pack() # this is the pack for the confirmation 
 
-            button3 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab4, activebackground='black')
+                def confirm_order(): # this function is used to confirm the order
+                    confirmation.destroy() # this is the destroy for the confirmation
+                    confirm_button.destroy()# this is the destroy for the confirm button
+                    cancel_button.destroy() # this is the destroy for the cancel button
+
+                    label4 = Label(ROOT, text="✔ Order Complete with Confirmation", font=('arial', 25), fg='green') # this is the label for the order complete with confirmation
+                    label4.pack() # this is the pack for the label4
+
+                def cancel_order():
+                    confirmation.destroy() 
+                    confirm_button.destroy()
+                    cancel_button.destroy()
+                    back_to_tab3()
+
+                confirm_button = Button(ROOT, text='Confirm', font=('arial', 15), command=confirm_order,
+                                        activebackground='green') # this is the confirm button for the tab4
+                confirm_button.pack() # this is the pack for the confirm button
+
+                cancel_button = Button(ROOT, text='Cancel', font=('arial', 15), command=cancel_order, 
+                                       activebackground='red') # this is the cancel button for the tab4
+                cancel_button.pack() # this is the pack for the cancel button
+
+                def back_to_tab3_from_tab4(): # this function is used to go back to tab3 from tab4
+                    for widget in ROOT.winfo_children(): # this is the for loop for the widgets
+                        widget.destroy() # this is the destroy for the widgets
+                    tab3()
+
+                back_button = Button(ROOT, text='BACK', font=('arial', 15), command=back_to_tab3_from_tab4,
+                                     activebackground='blue') # this is the back button for the tab4
+                back_button.pack() # this is the pack for the back button
+
+                def back_to_tab3(): # this function is used to go back to tab3
+                    for widget in ROOT.winfo_children():   # this is the for loop for the widgets
+                        widget.destroy()  # this is the destroy for the widgets 
+                    tab3()
+
+            button3 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab4, activebackground='black') # this button is used to go to tab4
             button3.pack(side=BOTTOM)
 
             def back():
-                label4.destroy()
-                button4.destroy()
-                buttonBack.destroy()
-                tab3()
-
-            button4 = Button(ROOT, text='Back', font=('arial', 25), command=tab3, activebackground='orange')
-            button4.pack(side=BOTTOM)
-
-            def back():
-                label3.destroy()
-                button3.destroy()
-                buttonBack.destroy()
+                for widget in ROOT.winfo_children():  # this is the for loop for the widgets
+                    widget.destroy()  # this is the destroy for the widgets 
                 tab2()
 
-            button3 = Button(ROOT, text='BACK', font=('arial', 25), command=tab2, activebackground='blue')
-            button3.pack(side=BOTTOM)
+            buttonBack = Button(ROOT, text='BACK', font=('arial', 25), command=tab2, activebackground='blue') # this function is used to go back to tab2
+            buttonBack.pack(side=BOTTOM) # this is the pack for the buttonBack
 
-        def back_to_tab1():
-            label2.destroy()
-            button2.destroy()
-            buttonBack.destroy()
+        def back_to_tab1(): # this function is used to go back to tab1
+            for widget in ROOT.winfo_children(): # this is the for loop for the widgets
+                widget.destroy() # this is the destroy for the widgets 
             tab1()
 
-        button2 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab3, activebackground='green')
+        button2 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab3, activebackground='green') # this function is used to go  to tab3
         button2.pack(side=BOTTOM)
 
-        buttonBack = Button(ROOT, text='BACK', font=('arial', 25), command=back_to_tab1, activebackground='blue')
+        buttonBack = Button(ROOT, text='BACK', font=('arial', 25), command=back_to_tab1, activebackground='blue') # this function is used to go back to tab1
         buttonBack.pack(side=BOTTOM)
 
-    label1 = Label(ROOT, text="main ", font=('arial', 25))
+    label1 = Label(ROOT, text="Welcome to mini wendy's", font=('arial', 25)) # this is the label for the welcome message 
     label1.pack()
 
-    button1 = Button(ROOT, text='NEXT', font=('arial', 25), command=tab2, activebackground='red')
-    button1.pack(side=BOTTOM)
+    img = PhotoImage(file='C:\\Users\\yvers\\Pictures\\wendys.png') # this is the image for the welcome message 
+    label1 = Label(ROOT, image=img) # this is the label for the image
+
+    label1.image = img 
+    label1.pack() # this is the pack for the image 
+
+    button1 = Button(
+        ROOT,
+        text='Take a Tour',
+        font=('arial', 25),
+        command=tab2,
+        activebackground='red'
+    ) # this is the button for the take a tour button 
+    button1.pack(side=BOTTOM) # this is the pack for the take a tour button 
 
 
-tab1()
-ROOT.mainloop()
+tab1() # this is the tabq function
+
+ROOT.mainloop() # this is the mainloop for the root
+
