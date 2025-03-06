@@ -8,7 +8,30 @@ ROOT.configure(bg='light blue')
 
 
 def tab1():
+    """
+    Initializes the initial interface for the mini Wendy's application.
+    - Displays a welcome label with a message.
+    - Displays an image of Wendy's logo.
+    - Provides a button to take a tour, which transitions to the order form tab (tab2).
+    - tab2(): Initializes the order form interface.
+    """
     def tab2():
+        """
+        Initializes the order form interface for the user to add items to their cart.
+        This function performs the following tasks:
+        - Destroys the initial label and button widgets.
+        - Displays the order form label.
+        - Displays the menu with available items and their prices.
+        - Displays the user's cart and the total price.
+        - Provides buttons for adding items to the cart.
+        - Updates the cart and total price when items are added.
+        - Provides a button to proceed to the checkout tab (tab3).
+        - Provides a button to go back to the initial tab (tab1).
+        Inner Functions:
+        - add_to_cart(item, price): Adds the specified item to the cart and updates the total price.
+        - tab3(): Initializes the checkout interface.
+        - back_to_tab1(): Returns to the initial tab (tab1).
+        """
         cart = []
         total_price = 0.0
 
@@ -54,6 +77,22 @@ def tab1():
                command=lambda: add_to_cart("CheeseBurger - $4.99", 4.99)).pack() # this is the button for the cheeseburger
 
         def tab3():
+            """
+            This function sets up the third tab of the application, which is the checkout tab. It performs the following tasks:
+            1. Destroys all existing widgets in the ROOT window.
+            2. Creates and packs a label indicating the checkout process.
+            3. Creates and packs a label summarizing the cart items.
+            4. Creates and packs a label displaying the total price of the items in the cart.
+            5. Defines and creates a button to place the order, which transitions to the next tab (tab4).
+            6. Defines the tab4 function, which:
+                - Destroys the checkout widgets.
+                - Creates and packs a confirmation label.
+                - Defines and creates buttons to confirm or cancel the order.
+                - Defines functions to handle order confirmation and cancellation.
+                - Defines a function to go back to tab3 from tab4.
+            7. Creates and packs a button to proceed to the next tab (tab4).
+            8. Defines and creates a button to go back to the previous tab (tab2).
+            """
             for widget in ROOT.winfo_children(): # this is the for loop for the widgets
                 widget.destroy()# this is the destroy for the widgets 
 
@@ -79,6 +118,21 @@ def tab1():
             place_order_button.pack() # this is the pack for the place order button
 
             def tab4():
+                """
+                This function represents the fourth tab in the application, which handles the order confirmation process.
+                It performs the following actions:
+                - Destroys existing widgets related to the cart summary and checkout.
+                - Displays a confirmation message asking the user if they want to complete their order.
+                - Provides two buttons: 'Confirm' to complete the order and 'Cancel' to go back to the previous tab.
+                - If the order is confirmed, it displays an order completion message.
+                - If the order is canceled, it returns to the previous tab.
+                - Includes a back button to return to the previous tab.
+                Functions:
+                - confirm_order(): Confirms the order and displays an order completion message.
+                - cancel_order(): Cancels the order and returns to the previous tab.
+                - back_to_tab3_from_tab4(): Returns to the previous tab from the current tab.
+                - back_to_tab3(): Returns to the previous tab.
+                """
                 label3.destroy()
                 cart_summary_label.destroy() # this is the destroy for the cart summary label
                 cart_summary_items.destroy() # this is the destroy for the cart summary items 
@@ -169,4 +223,3 @@ def tab1():
 tab1() # this is the tabq function
 
 ROOT.mainloop() # this is the mainloop for the root
-
